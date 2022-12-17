@@ -31,21 +31,23 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     gameState = List.filled(9, "empty");
-    this.message = "";
+    message = "";
     super.initState();
   }
 
   //Gameplay
 
   playGame(int index) {
-    if (this.gameState[index] == 'empty') {
+    if (gameState[index] == 'empty') {
       setState(() {
-        if (this.isCross) {
-          this.gameState[index] = "cross";
+        if (isCross) {
+          gameState[index] = "cross";
         } else {
-          this.gameState[index] = "circle";
+          gameState[index] = "circle";
         }
+
         isCross = !isCross;
+        checkWin();
       });
     }
   }
@@ -54,7 +56,7 @@ class _HomePageState extends State<HomePage> {
   resetGame() {
     setState(() {
       gameState = List.filled(9, "empty");
-      this.message = "";
+      message = "";
     });
   }
 
@@ -79,7 +81,61 @@ class _HomePageState extends State<HomePage> {
   }
 
   //WinLogic
-  checkWin() {}
+  checkWin() {
+    if ((gameState[0] != 'empty') &&
+        (gameState[0] == gameState[1]) &&
+        (gameState[1] == gameState[2])) {
+      setState(() {
+        message = gameState[0] + 'Wins';
+      });
+    } else if ((gameState[3] != 'empty') &&
+        (gameState[3] == gameState[4]) &&
+        (gameState[4] == gameState[5])) {
+      setState(() {
+        message = gameState[3] + 'Wins';
+      });
+    } else if ((gameState[6] != 'empty') &&
+        (gameState[6] == gameState[7]) &&
+        (gameState[7] == gameState[8])) {
+      setState(() {
+        message = gameState[6] + 'Wins';
+      });
+    } else if ((gameState[0] != 'empty') &&
+        (gameState[0] == gameState[3]) &&
+        (gameState[3] == gameState[6])) {
+      setState(() {
+        message = gameState[0] + 'Wins';
+      });
+    } else if ((gameState[1] != 'empty') &&
+        (gameState[1] == gameState[4]) &&
+        (gameState[4] == gameState[7])) {
+      setState(() {
+        message = gameState[1] + 'Wins';
+      });
+    } else if ((gameState[2] != 'empty') &&
+        (gameState[2] == gameState[5]) &&
+        (gameState[5] == gameState[8])) {
+      setState(() {
+        message = gameState[2] + 'Wins';
+      });
+    } else if ((gameState[0] != 'empty') &&
+        (gameState[0] == gameState[4]) &&
+        (gameState[4] == gameState[8])) {
+      setState(() {
+        message = gameState[0] + 'Wins';
+      });
+    } else if ((gameState[3] != 'empty') &&
+        (gameState[2] == gameState[4]) &&
+        (gameState[4] == gameState[6])) {
+      setState(() {
+        message = gameState[3] + 'Wins';
+      });
+    } else if (!gameState.contains("empty")) {
+      setState(() {
+        message = 'Game Draw';
+      });
+    }
+  }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,12 +161,27 @@ class _HomePageState extends State<HomePage> {
                         height: 100.0,
                         child: MaterialButton(
                           onPressed: () {
-                            this.playGame(i);
+                            playGame(i);
                           },
-                          child: getIcon(this.gameState[i]),
+                          child: getIcon(gameState[i]),
                         ),
                       ))),
-          ElevatedButton(onPressed: resetGame, child: Text('ResetGame'))
+          Text(
+            message,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+          ),
+          SizedBox(
+            height: 100,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(onPressed: resetGame, child: Text('ResetGame')),
+            ],
+          ),
+          SizedBox(
+            height: 100,
+          )
         ],
       ),
     );
