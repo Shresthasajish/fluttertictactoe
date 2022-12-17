@@ -124,11 +124,11 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         message = gameState[0] + 'Wins';
       });
-    } else if ((gameState[3] != 'empty') &&
+    } else if ((gameState[2] != 'empty') &&
         (gameState[2] == gameState[4]) &&
         (gameState[4] == gameState[6])) {
       setState(() {
-        message = gameState[3] + 'Wins';
+        message = gameState[2] + 'Wins';
       });
     } else if (!gameState.contains("empty")) {
       setState(() {
